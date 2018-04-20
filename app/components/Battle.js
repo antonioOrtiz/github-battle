@@ -16,11 +16,7 @@ class PlayerInput extends Component {
 
   handleChange(event) {
     var value = event.target.value;
-    this.setState(function() {
-      return {
-        username: value,
-      };
-    });
+    this.setState(() => ({ username: value })); /* arrow functions */
   }
 
   handleSubmit(event) {
@@ -29,17 +25,19 @@ class PlayerInput extends Component {
   }
 
   render() {
+    var { username } = this.state; /* destructuring */
+    var { label } = this.props; /* destructuring */
     return (
       <form className="column" onSubmit={this.handleSubmit}>
         <label className="header" htmlFor="username">
-          {this.props.label}
+          {label}
         </label>
         <input
           id="username"
           placeholder="github username"
           type="text"
           autoComplete="off"
-          value={this.state.username}
+          value={username}
           onChange={this.handleChange}
         />
         <button className="button" type="submit" disabled={!this.state.username}>
@@ -73,30 +71,27 @@ export default class Battle extends Component {
     this.handleReset = this.handleReset.bind(this);
   }
 
+  // prettier-ignore
   handleSubmit(id, username) {
-    this.setState(function() {
-      var newState = {};
-      newState[id + 'Name'] = username;
-      newState[id + 'Image'] = 'https://github.com/' + username + '.png?size=200';
-      return newState;
-    });
+    this.setState(() => ({
+      /* computed property names */
+      [id + 'Name']: username,
+      [id + 'Image']: `https://github.com/${username}.png?size=200`,
+    }));
   }
 
+  // prettier-ignore
   handleReset(id) {
-    this.setState(function() {
-      var newState = {};
-      newState[id + 'Name'] = '';
-      newState[id + 'Image'] = null;
-      return newState;
-    });
+    this.setState(() => ({
+      /* computed property names */
+      [id + 'Name']: '',
+      [id + 'Image']: null,
+    }));
   }
 
   render() {
-    var match = this.props.match;
-    var playerOneName = this.state.playerOneName;
-    var playerTwoName = this.state.playerTwoName;
-    var playerOneImage = this.state.playerOneImage;
-    var playerTwoImage = this.state.playerTwoImage;
+    var { match } = this.props;
+    var { playerOneName, playerTwoName, playerOneImage, playerTwoImage } = this.state;
     return (
       <div>
         <div className="row">
@@ -108,7 +103,7 @@ export default class Battle extends Component {
               avatar={playerOneImage}
               username={playerOneName}
             >
-              <button className="reset" onClick={this.handleReset.bind(null, 'playerOne')}>
+              <button className="reset" onClick={()=>this.handleReset('playerOne')}>
                 reset
               </button>
             </PlayerPreview>
@@ -122,7 +117,7 @@ export default class Battle extends Component {
               avatar={playerTwoImage}
               username={playerTwoName}>
 
-               <button className="reset" onClick={this.handleReset.bind(null, 'playerTwo')}>
+               <button className="reset" onClick={()=>this.handleReset( 'playerTwo')}>
                 reset
               </button>
 
@@ -135,7 +130,7 @@ export default class Battle extends Component {
             className="button"
             to={{
               pathname: match.url + '/results',
-              search: `?playerOneName=` + playerOneName + `&playerTwoName=` + playerTwoName,
+              search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}`,
             }}
             className="button"
           >
