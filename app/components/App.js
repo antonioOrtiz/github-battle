@@ -21,11 +21,7 @@ export default class App extends Component {
             <Route exact path="/battle" component={Battle} />
             <Route path="/battle/results" component={Results} />
             <Route path="/popular" component={Popular} />
-            <Route
-              render={function() {
-                return <h1>Not found</h1>;
-              }}
-            />
+            <Route render={() => <h1>Not found</h1>} /> {/* arrow function leveraging implicit return */}
           </Switch>
         </div>
       </Router>
