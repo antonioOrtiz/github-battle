@@ -23,7 +23,7 @@ export default class Loading extends Component {
     this.interval = window.setInterval(() => {
       /* ternary and using arrow functions */
       this.state.text === stopper
-        ? this.setState(() => ({ text: this.props.text }))
+        ? this.setState(() => ({ text: text }))
         : this.setState(prevState => ({ text: prevState.text + '.' }));
     }, speed);
   }
