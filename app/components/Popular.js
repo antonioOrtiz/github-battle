@@ -23,6 +23,11 @@ function SelectLangauge({ selectedLanguage, onSelect }) {
   );
 }
 
+SelectLangauge.propTypes = {
+  selectedLanguage: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
+};
+
 // prettier-ignore
 function RepoGrid({repos}) {
   return (
@@ -54,21 +59,15 @@ RepoGrid.propTypes = {
   repos: PropTypes.array.isRequired,
 };
 
-SelectLangauge.propTypes = {
-  selectedLanguage: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
-};
+/*
+  using babel-plugin-transform-class-properties to add these props, allows us to add specific properties to our components e.g. state, propTypes, defaultProps, as well as using arrow function for the methods on the class so we won't have to bind them.
+*/
 
 export default class Popular extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedLanguage: 'All',
-      repos: null,
-    };
-
-    this.updateLanguage = this.updateLanguage.bind(this);
-  }
+  state = {
+    selectedLanguage: 'All',
+    repos: null,
+  };
 
   // prettier-ignore
   componentDidMount() {
@@ -76,7 +75,7 @@ export default class Popular extends Component {
   }
 
   // prettier-ignore
-  updateLanguage(lang) { /* destructuring *note when returning a object you have to wrap in parens */
+  updateLanguage = (lang) => { /* destructuring *note when returning a object you have to wrap in parens */
     this.setState(() => ({
         selectedLanguage: lang,
         repos: null,

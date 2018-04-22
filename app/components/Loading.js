@@ -9,14 +9,24 @@ var styles = {
   },
 };
 
-export default class Loading extends Component {
-  constructor(props) {
-    super(props);
+/*
+  using babel-plugin-transform-class-properties to add these props, allows us to add specific properties to our components e.g. state, propTypes, defaultProps, as well as using arrow function for the methods on the class so we won't have to bind them.
+*/
 
-    this.state = {
-      text: props.text,
-    };
-  }
+export default class Loading extends Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    speed: PropTypes.number.isRequired,
+  };
+
+  static defaultProps = {
+    text: 'Loading',
+    speed: 300,
+  };
+  state = {
+    text: this.props.text,
+  };
+
   componentDidMount() {
     var { text, speed } = this.props; /* destructured properties on props */
     var stopper = text + '...';
@@ -38,13 +48,3 @@ export default class Loading extends Component {
     return <p style={styles.content}>{this.state.text}</p>;
   }
 }
-
-Loading.propTypes = {
-  text: PropTypes.string.isRequired,
-  speed: PropTypes.number.isRequired,
-};
-
-Loading.defaultProps = {
-  text: 'Loading',
-  speed: 300,
-};

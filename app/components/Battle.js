@@ -8,26 +8,34 @@ import { Link } from 'react-router-dom';
 
 import PlayerPreview from './PlayerPreview';
 
+/*
+  using babel-plugin-transform-class-properties to add these props, allows us to add specific properties to our components e.g. state, propTypes, defaultProps, as well as using arrow function for the methods on the class so we won't have to bind them.
+*/
+
 class PlayerInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-    };
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  static defaultProps = {
+    label: 'Username',
+  };
 
-  handleChange(event) {
+  state = {
+    username: '',
+  };
+
+  handleChange = event => {
     var value = event.target.value;
     this.setState(() => ({ username: value })); /* arrow functions */
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.props.onSubmit(this.props.id, this.state.username);
-  }
+  };
 
   render() {
     var { username } = this.state; /* destructuring */
@@ -53,31 +61,20 @@ class PlayerInput extends Component {
   }
 }
 
-PlayerInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-PlayerInput.defaultProps = {
-  label: 'Username',
-};
+/*
+  using babel-plugin-transform-class-properties to add these props, allows us to add specific properties to our components e.g. state, propTypes, defaultProps, as well as using arrow function for the methods on the class so we won't have to bind them.
+*/
 
 export default class Battle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playerOneName: '',
-      playerTwoName: '',
-      playerOneImage: null,
-      playerTwoImage: null,
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
+  state = {
+    playerOneName: '',
+    playerTwoName: '',
+    playerOneImage: null,
+    playerTwoImage: null,
+  };
 
   // prettier-ignore
-  handleSubmit(id, username) {
+  handleSubmit = (id, username) => {
     this.setState(() => ({
       /* computed property names */
       [id + 'Name']: username,
@@ -86,7 +83,7 @@ export default class Battle extends Component {
   }
 
   // prettier-ignore
-  handleReset(id) {
+  handleReset= (id) => {
     this.setState(() => ({
       /* computed property names */
       [id + 'Name']: '',

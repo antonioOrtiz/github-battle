@@ -50,17 +50,17 @@ Player.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
-export default class Results extends Component {
-  constructor(props) {
-    super(props);
+/*
+  using babel-plugin-transform-class-properties to add these props, allows us to add specific properties to our components e.g. state, propTypes, defaultProps, as well as using arrow function for the methods on the class so we won't have to bind them.
+*/
 
-    this.state = {
-      winner: null,
-      loser: null,
-      error: null,
-      loading: true,
-    };
-  }
+export default class Results extends Component {
+  state = {
+    winner: null,
+    loser: null,
+    error: null,
+    loading: true,
+  };
 
   componentDidMount() {
     var { playerOneName, playerTwoName } = queryString.parse(this.props.location.search); /* destructuring */
