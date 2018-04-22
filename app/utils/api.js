@@ -5,9 +5,9 @@ var sec = '59b5759d2fa76a889c2b2ddc24e9008d6ef578b3';
 var params = `?client_id=${id}&client_secret=${sec}`; /*template string*/
 
 // prettier-ignore
-function getProfile(username) {
-  return axios.get(`https://api.github.com/users/${username}${params}`)
-  .then(({data}) => data); /* template strings arrow functions */
+async function getProfile(username) {
+  var profile = await axios.get(`https://api.github.com/users/${username}${params}`)
+  return profile.data;
 }
 
 function getRepos(username) {
@@ -29,36 +29,37 @@ function handleError(error) {
 }
 
 // prettier-ignore
-function getUserData(player) {
-  return Promise.all([ /* using native promises, destructuring arrays, arrow functions */
+async function getUserData(player) {
+  var [profile, repos] = await Promise.all([ /* using native promises, destructuring arrays, arrow functions added async/await */
     getProfile(player),
     getRepos(player)
-  ]).then(([profile, repos]) => ({
-
-      profile,
-      score: calculateScore(profile, repos),
-
-  }));
+  ])
+  return {
+    profile,
+    score: calculateScore(profile, repos),
+  }
 }
 
 function sortPlayers(players) {
   return players.sort((a, b) => b.score - a.score); /* using arrow functions */
 }
 
-export function battle(players) {
+export async function battle(players) {
   /*  Not a default export; see below for explanation */
-  return Promise.all(players.map(getUserData))
-    .then(sortPlayers)
-    .catch(handleError);
+  var results = await Promise.all(players.map(getUserData)).catch(handleError);
+
+  return results === null ? results : sortPlayers(results);
 }
 
-export function fetchPopularRepos(language) {
+export async function fetchPopularRepos(language) {
   /*  Not a default export; see below for explanation */
   var encodedURI = window.encodeURI(
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories` /* using template strings */
   );
 
-  return axios.get(encodedURI).then(({ data }) => data.items); /* arrow functions */
+  var repos = await axios.get(encodedURI).catch(handleError);
+
+  return repos.data.items; /* arrow functions */
 }
 
 /*

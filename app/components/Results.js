@@ -62,27 +62,30 @@ export default class Results extends Component {
     loading: true,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    /* using async/await */
     var { playerOneName, playerTwoName } = queryString.parse(this.props.location.search); /* destructuring */
     // prettier-ignore
-    battle([
+
+    var players = await battle([
       playerOneName,
       playerTwoName
     ])
-    .then((players) => {
-      if (players === null){
-        return this.setState(() => ({ /* destructuring *note when returning a object you have to wrap in parens */
-            error: 'Looks like there was an error. Check that both users exist on Github!',
-            loading: false
-        }))
-      }
-      this.setState(()=>({ /* destructuring *note when returning a object you have to wrap in parens */
-          error: null,
-          winner: players[0],
-          loser: players[1],
-          loading: false
-      }))
-    });
+
+    if (players === null) {
+      return this.setState(() => ({
+        /* destructuring *note when returning a object you have to wrap in parens */
+        error: 'Looks like there was an error. Check that both users exist on Github!',
+        loading: false,
+      }));
+    }
+    this.setState(() => ({
+      /* destructuring *note when returning a object you have to wrap in parens */
+      error: null,
+      winner: players[0],
+      loser: players[1],
+      loading: false,
+    }));
   }
 
   render() {

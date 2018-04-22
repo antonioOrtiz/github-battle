@@ -75,14 +75,15 @@ export default class Popular extends Component {
   }
 
   // prettier-ignore
-  updateLanguage = (lang) => { /* destructuring *note when returning a object you have to wrap in parens */
+  updateLanguage = async (lang) => { /* destructuring *note when returning a object you have to wrap in parens, also added async/await */
     this.setState(() => ({
         selectedLanguage: lang,
         repos: null,
     }));
 
-    fetchPopularRepos(lang)
-    .then((repos) => this.setState(()=> ({ repos }))); /* when key and value name are the same, you can ommit the value*/
+    var repos = await fetchPopularRepos(lang)
+    this.setState(()=> ({ repos }))
+
   }
 
   // prettier-ignore
