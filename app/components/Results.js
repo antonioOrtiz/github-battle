@@ -6,9 +6,8 @@ import Link from 'react-router';
 import PlayerPreview from './PlayerPreview';
 import Loading from './Loading';
 
-function Profile(props) {
-  var info = props.info;
-
+function Profile({ info }) {
+  /* destructuring */
   return (
     <PlayerPreview username={info.login} avatar={info.avatar_url}>
       <ul className="space-list-items">
@@ -32,12 +31,13 @@ Profile.propTypes = {
   info: PropTypes.object.isRequired,
 };
 
-function Player(props) {
+// prettier-ignore
+function Player({ label, score, profile }) { /* destructuring */
   return (
     <div>
-      <h1 className="header">{props.label}</h1>
-      <h3 style={{ textAlign: 'center' }}>Score: {props.score}</h3>
-      <Profile info={props.profile} />
+      <h1 className="header">{label}</h1>
+      <h3 style={{ textAlign: 'center' }}>Score: {score}</h3>
+      <Profile info={profile} />
     </div>
   );
 }
@@ -61,38 +61,30 @@ export default class Results extends Component {
   }
 
   componentDidMount() {
-    var players = queryString.parse(this.props.location.search);
-    console.log('players', players);
+    var { playerOneName, playerTwoName } = queryString.parse(this.props.location.search); /* destructuring */
     // prettier-ignore
     api.battle([
-      players.playerOneName,
-      players.playerTwoName
+      playerOneName,
+      playerTwoName
     ])
-    .then(function(results) {
-      if (results === null){
-        return this.setState(function(){
-          return{
+    .then((players) => {
+      if (players === null){
+        return this.setState(() => ({ /* destructuring *note when returning a object you have to wrap in parens */
             error: 'Looks like there was an error. Check that both users exist on Github!',
             loading: false
-          }
-        })
+        }))
       }
-      this.setState(function(){
-        return {
+      this.setState(()=>({ /* destructuring *note when returning a object you have to wrap in parens */
           error: null,
-          winner: results[0],
-          loser: results[1],
+          winner: players[0],
+          loser: players[1],
           loading: false
-        }
-      })
-    }.bind(this));
+      }))
+    });
   }
 
   render() {
-    var error = this.state.error;
-    var winner = this.state.winner;
-    var loser = this.state.loser;
-    var loading = this.state.loading;
+    var { error, winner, loser, loading } = this.state; /* destructuring off state*/
 
     if (loading === true) {
       return <Loading />;
