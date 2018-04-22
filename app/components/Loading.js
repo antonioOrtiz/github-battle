@@ -17,26 +17,17 @@ export default class Loading extends Component {
     };
   }
   componentDidMount() {
-    var stopper = this.props.text + '...';
-    this.interval = window.setInterval(
-      function() {
-        if (this.state.text === stopper) {
-          this.setState(function() {
-            return {
-              text: this.props.text,
-            };
-          });
-        } else {
-          this.setState(function(prevState) {
-            return {
-              text: prevState.text + '.',
-            };
-          });
-        }
-      }.bind(this),
-      this.props.speed
-    );
+    var { text, speed } = this.props; /* destructured properties on props */
+    var stopper = text + '...';
+
+    this.interval = window.setInterval(() => {
+      /* ternary and using arrow functions */
+      this.state.text === stopper
+        ? this.setState(() => ({ text: this.props.text }))
+        : this.setState(prevState => ({ text: prevState.text + '.' }));
+    }, speed);
   }
+
   componentWillUnmount() {
     console.log('CLEAR THE INTERVAL');
     window.clearInterval(this.interval);
