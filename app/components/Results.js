@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+/* named imports if what we are importing is coming in as an object */
+
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import api from '../utils/api';
+import { battle } from '../utils/api';
 import Link from 'react-router';
 import PlayerPreview from './PlayerPreview';
 import Loading from './Loading';
@@ -63,7 +65,7 @@ export default class Results extends Component {
   componentDidMount() {
     var { playerOneName, playerTwoName } = queryString.parse(this.props.location.search); /* destructuring */
     // prettier-ignore
-    api.battle([
+    battle([
       playerOneName,
       playerTwoName
     ])

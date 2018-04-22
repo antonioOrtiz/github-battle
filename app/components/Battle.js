@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+/* named imports if what we are importing is coming in as an object */
+
 import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom';
+/* named imports if what we are importing is coming in as an object */
+
 import PlayerPreview from './PlayerPreview';
 
 class PlayerInput extends Component {

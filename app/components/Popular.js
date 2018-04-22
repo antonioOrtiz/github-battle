@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+/* named imports if what we are importing is coming in as an object */
+
 import PropTypes from 'prop-types';
-import api from '../utils/api';
+import { fetchPopularRepos } from '../utils/api';
 import Loading from './Loading';
 
 // prettier-ignore
@@ -80,7 +82,7 @@ export default class Popular extends Component {
         repos: null,
     }));
 
-    api.fetchPopularRepos(lang)
+    fetchPopularRepos(lang)
     .then((repos) => this.setState(()=> ({ repos }))); /* when key and value name are the same, you can ommit the value*/
   }
 

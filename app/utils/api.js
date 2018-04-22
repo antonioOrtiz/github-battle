@@ -1,4 +1,4 @@
-var axios = require('axios');
+import axios from 'axios';
 
 var id = 'fa9a9a94440ad07170d8';
 var sec = '59b5759d2fa76a889c2b2ddc24e9008d6ef578b3';
@@ -45,17 +45,29 @@ function sortPlayers(players) {
   return players.sort((a, b) => b.score - a.score); /* using arrow functions */
 }
 
-module.exports = {
-  battle(players) {
-    return Promise.all(players.map(getUserData))
-      .then(sortPlayers)
-      .catch(handleError);
-  },
-  fetchPopularRepos(language) {
-    var encodedURI = window.encodeURI(
-      `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories` /* using template strings */
-    );
+export function battle(players) {
+  /*  Not a default export; see below for explanation */
+  return Promise.all(players.map(getUserData))
+    .then(sortPlayers)
+    .catch(handleError);
+}
 
-    return axios.get(encodedURI).then(({ data }) => data.items); /* arrow functions */
-  },
-};
+export function fetchPopularRepos(language) {
+  /*  Not a default export; see below for explanation */
+  var encodedURI = window.encodeURI(
+    `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories` /* using template strings */
+  );
+
+  return axios.get(encodedURI).then(({ data }) => data.items); /* arrow functions */
+}
+
+/*
+  when importing a function that is a default use:
+
+  import fetchPopularRepos from '../api'
+
+  if its not use this, named imports:
+
+  import {fetchPopularRepos} from '../api'
+
+*/

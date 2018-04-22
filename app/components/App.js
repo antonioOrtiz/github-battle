@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; /* named imports if what we are importing is coming in as an object */
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+/* named imports if what we are importing is coming in as an object */
 
 import Nav from './Nav';
 import Home from './Home';

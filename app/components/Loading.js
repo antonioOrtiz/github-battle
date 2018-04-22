@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+/* named imports if what we are importing is coming in as an object */
 import PropTypes from 'prop-types';
 
 var styles = {
