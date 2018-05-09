@@ -12,8 +12,13 @@
   "author": "Antonio Pavicevac-Ortiz",
   "license": "ISC",
   "babel": {
-    "presets": ["env", "react"],
-    "plugins": ["transform-class-properties"]
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -21,7 +26,8 @@
     "query-string": "^6.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -4,7 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var webpack = require('webpack');
 
 var config = {
-  entry: ['babel-polyfill', './app/index.js'], // this will include the ES6 promise object
+  entry: ['babel-polyfill', 'whatwg-fetch', './app/index.js'], // this will include the ES6 promise object
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',

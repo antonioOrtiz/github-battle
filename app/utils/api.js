@@ -1,21 +1,22 @@
-import axios from 'axios';
-
 var id = 'fa9a9a94440ad07170d8';
 var sec = '59b5759d2fa76a889c2b2ddc24e9008d6ef578b3';
 var params = `?client_id=${id}&client_secret=${sec}`; /*template string*/
 
 // prettier-ignore
 async function getProfile(username) {
-  var profile = await axios.get(`https://api.github.com/users/${username}${params}`)
-  return profile.data;
+  var response = await fetch(`https://api.github.com/users/${username}${params}`)
+  return response.json();
 }
 
-function getRepos(username) {
-  return axios.get(`https://api.github.com/users/${username}/repos${params}&per_page=100`); /*template string*/
+async function getRepos(username) {
+  var response = await fetch(
+    `https://api.github.com/users/${username}/repos${params}&per_page=100`
+  ); /*template string*/
+  return response.json();
 }
 
 function getStarCount(repos) {
-  return repos.data.reduce((count, { stargazers_count }) => count + stargazers_count, 0); /* arrow functions */
+  return repos.reduce((count, { stargazers_count }) => count + stargazers_count, 0); /* arrow functions */
 }
 
 // prettier-ignore
@@ -57,9 +58,11 @@ export async function fetchPopularRepos(language) {
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories` /* using template strings */
   );
 
-  var repos = await axios.get(encodedURI).catch(handleError);
+  var response = await fetch(encodedURI).catch(handleError);
 
-  return repos.data.items; /* arrow functions */
+  var respos = await response.json();
+
+  return repos.data.items;
 }
 
 /*
